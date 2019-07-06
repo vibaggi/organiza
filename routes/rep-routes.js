@@ -70,7 +70,7 @@ router.post("/atualizarModelosTarefas", function(req, res){
     if(!req.body.modelos || !req.body.nomeRepublica){
         res.status(500).send("Campo regrasLista não encontrado")
     }
-    controller.atualizarModelosTarefa(req.body.modelos, req.body.nomeRepublica).then(resp=>{
+    controller.atualizarModelosTarefas(req.body.modelos, req.body.nomeRepublica).then(resp=>{
         res.status(200).send(resp)
     }).catch(error=>{
         res.status(500).send(error)
@@ -95,6 +95,14 @@ router.post("/adicionaMembro", function(req, res){
 
 router.get("/info/:nome", function(req, res){
     controller.infoRepublica(req.params.nome).then(resp=>{
+        res.status(200).send(resp)
+    }).catch(error=>{
+        res.status(500).send(error)
+    })
+})
+
+router.get("/getListaModelos/:nome", function(req, res){
+    controller.listaModelosTarefas(req.params.nome).then(resp=>{
         res.status(200).send(resp)
     }).catch(error=>{
         res.status(500).send(error)

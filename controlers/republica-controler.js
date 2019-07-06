@@ -91,7 +91,7 @@ async function adicionaMembro(login, nomeRepublica){
     })
 }
 
-async function atualizarModelosTarefa(modelos, nomeRepublica){
+async function atualizarModelosTarefas(modelos, nomeRepublica){
     return new Promise((resolve, reject)=>{
         MongoClient.connect(process.env.MONGO_URL, function(err, client){
             if(err) reject(err)
@@ -137,12 +137,32 @@ async function infoRepublica(nome){
     })
 }
 
+async function listaModelosTarefas(nomeRepublica){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+
+            db.collection('republicas').findOne({
+                nome: nomeRepublica
+            }, function(err, result){
+                if(err) reject(err)
+
+                resolve(result.modelosTarefas)
+            })
+        })
+    })
+}
+
+
 
 module.exports = {
     criarRepublica: criarRepublica,
     atualizarRegrasRepublica: atualizarRegrasRepublica,
     getListaRepublica: getListaRepublica,
     adicionaMembro: adicionaMembro,
-    atualizarModelosTarefa: atualizarModelosTarefa,
-    infoRepublica: infoRepublica
+    atualizarModelosTarefas: atualizarModelosTarefas,
+    infoRepublica: infoRepublica,
+    listaModelosTarefas: listaModelosTarefas
 }

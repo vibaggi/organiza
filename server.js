@@ -12,6 +12,7 @@ app.options('*', cors());
 app.use(logger('[:date[clf]] | ":method :url HTTP/:http-version" | STATUS: :status | CONTENT_LENGTH: :res[content-length] | RESPONSE_TIME: :response-time ms'));
 
 app.use("/republica", require('./routes/rep-routes'))
+app.use("/tarefas", require("./routes/tarefas-routes"))
 
 app.set('port', (process.env.PORT || 3000));
 app.listen(app.get('port'), () => {
