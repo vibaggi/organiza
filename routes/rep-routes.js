@@ -4,28 +4,28 @@ const auth = require('../services/auth-service')
 const mongo = require('../services/mongo')
 
 // //Função para novo cadastro
-// router.post("/register", function (req, res) {
-//     auth.signUp(req.body.username, req.body.password, req.body.email).then(resp => {
-//         console.log(` ==== INFO ==== Register :: ${req.body.username} :: ${req.body.password} :: ${req.body.email} `)
+router.post("/register", function (req, res) {
+    auth.signUp(req.body.username, req.body.password, req.body.email).then(resp => {
+        console.log(` ==== INFO ==== Register :: ${req.body.username} :: ${req.body.password} :: ${req.body.email} `)
 
-//         res.send(resp)
-//     }).catch(error => {
-//         res.status(401).send(error)
-//     })
-// })
+        res.send(resp)
+    }).catch(error => {
+        res.status(401).send(error)
+    })
+})
 
 // //funcao de login e retorno de token
-// router.post("/login", function (req, res) {
-//     auth.login(req.body.username, req.body.password).then(token => {
-//         console.log(` ==== INFO ==== Login :: ${req.body.username} :: ${req.body.password}`)
+router.post("/login", function (req, res) {
+    auth.login(req.body.username, req.body.password).then(token => {
+        console.log(` ==== INFO ==== Login :: ${req.body.username} :: ${req.body.password}`)
 
-//         auth.validateToken(token).then(resp => {
-//             res.send({ token: token, data: resp })
-//         })
-//     }).catch(error => {
-//         res.status(401).send(error)
-//     })
-// })
+        auth.validateToken(token).then(resp => {
+            res.send({ token: token, data: resp })
+        })
+    }).catch(error => {
+        res.status(401).send(error)
+    })
+})
 
 // //verificador de token para funcoes a baixo
 // router.use(function (req, res, next) {
