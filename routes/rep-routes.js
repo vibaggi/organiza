@@ -1,47 +1,6 @@
 const router = require('express').Router();
 const controller = require('../controlers/republica-controler')
-const auth = require('../services/auth-service')
-const mongo = require('../services/mongo')
 
-// //Função para novo cadastro
-router.post("/register", function (req, res) {
-    auth.signUp(req.body.username, req.body.password, req.body.email).then(resp => {
-        console.log(` ==== INFO ==== Register :: ${req.body.username} :: ${req.body.password} :: ${req.body.email} `)
-
-        res.send(resp)
-    }).catch(error => {
-        res.status(401).send(error)
-    })
-})
-
-// //funcao de login e retorno de token
-router.post("/login", function (req, res) {
-    auth.login(req.body.username, req.body.password).then(token => {
-        console.log(` ==== INFO ==== Login :: ${req.body.username} :: ${req.body.password}`)
-
-        auth.validateToken(token).then(resp => {
-            res.send({ token: token, data: resp })
-        })
-    }).catch(error => {
-        res.status(401).send(error)
-    })
-})
-
-// //verificador de token para funcoes a baixo
-// router.use(function (req, res, next) {
-//     if (req.headers.token == undefined) res.status(401).send("TOKEN NÃO INFORMADO")
-//     auth.validateToken(req.headers.token).then(resp => {
-
-//         req.authObject = {
-//             username: resp.username,
-//             org: resp.organization,
-//             walletName: resp.organization
-//         }
-//         next()
-//     }).catch(error => {
-//         res.status(401).send(error)
-//     })
-// })
 
 router.post("/criar", function(req, res){
     if(!req.body.nome || !req.body.participantesID || !req.body.regrasLista ) {
@@ -95,6 +54,14 @@ router.post("/adicionaMembro", function(req, res){
 
 router.get("/info/:nome", function(req, res){
     controller.infoRepublica(req.params.nome).then(resp=>{
+        res.status(200).send(resp)
+    }).catch(error=>{
+        res.status(500).send(error)
+    })
+})
+
+router.get("/info/poruser/:nome", function(req, res){
+    controller.infoRepublicaPorUsuario(req.params.nome).then(resp=>{
         res.status(200).send(resp)
     }).catch(error=>{
         res.status(500).send(error)

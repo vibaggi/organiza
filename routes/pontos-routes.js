@@ -1,6 +1,18 @@
 const router = require('express').Router();
 const controller = require('../controlers/pontos-controllers')
 
+router.get("/saldo/:username", function(req, res){
+    //extraindo parametros
+    var username = req.params.username
+    controller.saldo(username).then(resp=>{
+        console.log(resp);
+        return res.status(200).send({saldo: resp} )
+    }).catch(error =>{
+        return res.status(500).send(error)
+    })
+})
+
+
 router.post("/transferir", function(req, res){
     //extraindo parametros
     var remetente       = req.body.remetente

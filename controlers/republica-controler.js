@@ -137,6 +137,23 @@ async function infoRepublica(nome){
     })
 }
 
+async function infoRepublicaPorUsuario(nomeUsuario){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+            db.collection('republicas').findOne({
+                participantesID: nomeUsuario
+            }).then(resp=>{
+                resolve(resp)
+            }).catch(error=>{
+                reject(error)
+            })
+        })
+    })
+}
+
 async function listaModelosTarefas(nomeRepublica){
     return new Promise((resolve, reject)=>{
         MongoClient.connect(process.env.MONGO_URL, function(err, client){
@@ -164,5 +181,6 @@ module.exports = {
     adicionaMembro: adicionaMembro,
     atualizarModelosTarefas: atualizarModelosTarefas,
     infoRepublica: infoRepublica,
-    listaModelosTarefas: listaModelosTarefas
+    listaModelosTarefas: listaModelosTarefas,
+    infoRepublicaPorUsuario: infoRepublicaPorUsuario
 }

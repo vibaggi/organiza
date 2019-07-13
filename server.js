@@ -8,9 +8,10 @@ const app = express();
 
 
 app.use(bodyParser.json());
-app.options('*', cors());
+app.use(cors());
 app.use(logger('[:date[clf]] | ":method :url HTTP/:http-version" | STATUS: :status | CONTENT_LENGTH: :res[content-length] | RESPONSE_TIME: :response-time ms'));
 
+app.use("/", require('./routes/login-routes'))
 app.use("/republicas", require('./routes/rep-routes'))
 app.use("/tarefas", require("./routes/tarefas-routes"))
 app.use("/ocorrencias", require("./routes/ocorrencias-routes"))

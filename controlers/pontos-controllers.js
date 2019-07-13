@@ -1,5 +1,26 @@
 const MongoClient = require('mongodb').MongoClient; //biblioteca para conectar ao mongodb
 
+async function saldo(login){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function (err, client) {
+            if (err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+            
+            db.collection('usuarios').findOne({
+                login
+            }, function(err, result){
+                if (err) {
+                    reject(err)
+                    return
+                }
+                console.log(result);
+                if(!result) reject("Usuario invalido")
+                resolve(result.saldo)
+            })
+        })
+    })
+}
 async function enviarPontos(remetente, destinatario, republica, valor) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(process.env.MONGO_URL, function (err, client) {
@@ -128,6 +149,7 @@ async function extratoTotal(login, republica){
 }
 
 module.exports = {
+    saldo: saldo,
     enviarPontos: enviarPontos,
     extratoTransferencias: extratoTransferencias,
     extratoTotal: extratoTotal
