@@ -62,9 +62,29 @@ async function lista(login, nomeRepublica){
     })
 }
 
+async function totalTarefasRep(nomeRepublica, quantUltimas){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+
+            db.collection('tarefas').find({
+                republica: nomeRepublica
+            }).toArray(function(err, docs){
+                if(err) reject(err)
+                resolve({
+                    total: docs.length,
+                    ultimas: docs.slice(-quantUltimas)
+                })
+            })
+        })
+    })
+}
+
 
 module.exports = {
     registrarTarefa:registrarTarefa,
-    lista: lista
-
+    lista: lista,
+    totalTarefasRep: totalTarefasRep
 }

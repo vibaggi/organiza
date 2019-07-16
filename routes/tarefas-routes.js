@@ -31,4 +31,12 @@ router.get("/lista", function(req, res){
     })
 })
 
+router.get("/:republica/:quantUltimas", function(req, res){
+    controller.totalTarefasRep(req.params.republica, req.params.quantUltimas).then(resp=>{
+        res.status(200).send(resp)
+    }).catch(error=>{
+        res.status(500).send(error)
+    })
+})
+
 module.exports = router
