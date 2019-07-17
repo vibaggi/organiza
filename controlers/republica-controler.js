@@ -173,6 +173,31 @@ async function listaModelosTarefas(nomeRepublica){
 }
 
 
+async function rankRepublica(nome){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+            db.collection('republicas').findOne({
+                nome: nome
+            }).then(resp=>{
+                
+                var participantes = resp.participantesID
+
+                db.collection('usuarios').find({
+                    login: { $in: participantes}
+                }).toArray((err, docs)=>{
+                    if(err) reject(err)
+                    resolve(docs)
+                })
+            }).catch(error=>{
+                reject(error)
+            })
+        })
+    })
+}
+
 
 module.exports = {
     criarRepublica: criarRepublica,
@@ -182,5 +207,6 @@ module.exports = {
     atualizarModelosTarefas: atualizarModelosTarefas,
     infoRepublica: infoRepublica,
     listaModelosTarefas: listaModelosTarefas,
-    infoRepublicaPorUsuario: infoRepublicaPorUsuario
+    infoRepublicaPorUsuario: infoRepublicaPorUsuario,
+    rankRepublica: rankRepublica
 }

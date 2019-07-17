@@ -71,7 +71,7 @@ async function totalTarefasRep(nomeRepublica, quantUltimas){
 
             db.collection('tarefas').find({
                 republica: nomeRepublica
-            }).toArray(function(err, docs){
+            }).sort({data: -1}).toArray(function(err, docs){
                 if(err) reject(err)
                 resolve({
                     total: docs.length,
