@@ -14,11 +14,11 @@ router.post("/register", function (req, res) {
 
 // //funcao de login e retorno de token
 router.post("/login", function (req, res) {
-    auth.login(req.body.username, req.body.password).then(token => {
+    auth.login(req.body.username, req.body.password).then(credenciais => {
         console.log(` ==== INFO ==== Login :: ${req.body.username} :: ${req.body.password}`)
 
-        auth.validateToken(token).then(resp => {
-            res.send({ token: token, data: resp })
+        auth.validateToken(credenciais.token).then(resp => {
+            res.send({ token: credenciais.token, data: resp, apelido: credenciais.apelido })
         })
     }).catch(error => {
         res.status(401).send(error)

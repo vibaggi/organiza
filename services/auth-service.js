@@ -63,7 +63,7 @@ function login(username, password) {
                         username: username, 
                         generateDate: Date.now() 
                     })
-                    resolve(token)
+                    resolve({token, apelido:resp.apelido})
                 }else{
                     reject("login/senha invalida")
                 }

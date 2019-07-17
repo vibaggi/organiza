@@ -76,4 +76,14 @@ router.get("/getListaModelos/:nome", function(req, res){
     })
 })
 
+router.get("/rank/:nome", function(req, res){
+    controller.rankRepublica(req.params.nome).then(resp=>{
+        res.status(200).send(resp)
+    }).catch(error=>{
+        res.status(500).send(error)
+    })
+})
+
+
+
 module.exports = router
