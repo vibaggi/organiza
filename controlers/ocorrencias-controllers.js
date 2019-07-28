@@ -49,7 +49,7 @@ async function registrarOcorrencia(acusador, republica, reu, lei){
                     $inc: {saldo: -regra.pontos}
                 })
 
-                resolve("OK")
+                resolve({mensage: "OK"})
 
             })
 
@@ -80,7 +80,29 @@ async function listarOcorrencias(reu, republica){
     })
 }
 
+async function totalTarefasRep(nomeRepublica, quantUltimas){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+
+            db.collection('ocorrencias').find({
+                republica: nomeRepublica
+            }).sort({data: -1}).toArray(function(err, docs){
+                if(err) reject(err)
+                resolve({
+                    total: docs.length,
+                    ultimas: docs.slice(-quantUltimas)
+                })
+                client.close()
+            })
+        })
+    })
+}
+
 module.exports = {
-    registrarOcorrencia: registrarOcorrencia,
-    listarOcorrencias: listarOcorrencias
+    registrarOcorrencia,
+    listarOcorrencias,
+    totalTarefasRep
 }
