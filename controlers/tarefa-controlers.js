@@ -39,6 +39,7 @@ async function registrarTarefa(login, nomeRepublica, nomeTarefa){
                 })
 
                 resolve("OK")
+                client.close()
             })
         })
     })
@@ -57,6 +58,7 @@ async function lista(login, nomeRepublica){
             }).toArray(function(err, docs){
                 if(err) reject(err)
                 resolve(docs)
+                client.close()
             })
         })
     })
@@ -77,6 +79,7 @@ async function totalTarefasRep(nomeRepublica, quantUltimas){
                     total: docs.length,
                     ultimas: docs.slice(-quantUltimas)
                 })
+                client.close()
             })
         })
     })

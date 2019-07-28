@@ -65,7 +65,11 @@ async function getListaRepublica(nome){
                 if(err) reject(err)
                 console.log(docs);
                 resolve(docs)
+
+                client.close()
             })
+
+            
         })
     })
 }
@@ -82,8 +86,10 @@ async function adicionaMembro(login, nomeRepublica){
                 { $push: { participantesID: login }}
             ).then(resp=>{
                 resolve(resp)
+                client.close()
             }).catch(error=>{
                 reject(error)
+                client.close()
             })
 
             
@@ -105,9 +111,10 @@ async function atualizarModelosTarefas(modelos, nomeRepublica){
                 { //Update
                     $set: {modelosTarefas: modelos}
                 },
-                function(err, client){
+                function(err, data){
                     if(err) reject(err)
-                    resolve(client)
+                    resolve(data)
+                    client.close()
                 }
             )
            
@@ -130,8 +137,10 @@ async function infoRepublica(nome){
                 nome: nome
             }).then(resp=>{
                 resolve(resp)
+                client.close()
             }).catch(error=>{
                 reject(error)
+                client.close()
             })
         })
     })
@@ -147,8 +156,10 @@ async function infoRepublicaPorUsuario(nomeUsuario){
                 participantesID: nomeUsuario
             }).then(resp=>{
                 resolve(resp)
+                client.close()
             }).catch(error=>{
                 reject(error)
+                client.close()
             })
         })
     })
@@ -167,6 +178,7 @@ async function listaModelosTarefas(nomeRepublica){
                 if(err) reject(err)
 
                 resolve(result.modelosTarefas)
+                client.close()
             })
         })
     })
@@ -190,9 +202,11 @@ async function rankRepublica(nome){
                 }).toArray((err, docs)=>{
                     if(err) reject(err)
                     resolve(docs)
+                    client.close()
                 })
             }).catch(error=>{
                 reject(error)
+                client.close()
             })
         })
     })

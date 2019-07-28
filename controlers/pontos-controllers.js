@@ -12,11 +12,13 @@ async function saldo(login){
             }, function(err, result){
                 if (err) {
                     reject(err)
+                    client.close()
                     return
                 }
                 console.log(result);
                 if(!result) reject("Usuario invalido")
                 resolve(result.saldo)
+                client.close()
             })
         })
     })
@@ -36,6 +38,7 @@ async function enviarPontos(remetente, destinatario, republica, valor) {
             }, function (err, result) {
                 if (err) {
                     reject(err)
+                    client.close()
                     return
                 }
 
@@ -63,7 +66,7 @@ async function enviarPontos(remetente, destinatario, republica, valor) {
                     })
 
                 resolve("TRANSFERENCIA REALIZADA")
-
+                client.close()
             })
 
 
@@ -76,6 +79,7 @@ async function extratoTransferencias(login, republica) {
         MongoClient.connect(process.env.MONGO_URL, function (err, client) {
             if (err) {
                 reject(err)
+                client.close()
                 return
             }
 
@@ -90,10 +94,12 @@ async function extratoTransferencias(login, republica) {
             }).toArray(function (err, docs) {
                 if (err) {
                     reject(err)
+                    client.close()
                     return
                 }
 
                 resolve(docs)
+                client.close()
 
             })
 
@@ -139,6 +145,7 @@ async function extratoTotal(login, republica){
                             ocorrencias,
                             transferencias
                         })
+                        client.close()
                     })
                 })
             })
