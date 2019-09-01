@@ -38,11 +38,9 @@ function signUp(username, password, email, apelido) {
                     //caso dispare erro na criacao da conta
                     if (err) return reject(err)
                     resolve({message: "success"})
+                    client.close();
                 })
             })
-
-
-            client.close();
         });
 
 
