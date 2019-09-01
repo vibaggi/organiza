@@ -9,7 +9,7 @@ var tokensMap = new Map() //tokens armazenados em memoria
  * @param {*} password this will be encripto
  * @param {*} organization 
  */
-function signUp(username, password, email) {
+function signUp(username, password, email, apelido) {
     return new Promise((resolve, reject) => {
         //Iniciando conexao com o mongo
         MongoClient.connect(process.env.MONGO_URL, function (err, client) {
@@ -20,7 +20,8 @@ function signUp(username, password, email) {
             var user = {
                 login: username,
                 password: criptoHash.generate(password),
-                email: email
+                email: email,
+                apelido: apelido
             }
             
             //TODO: verificar se já existe o usuario da org

@@ -3,7 +3,7 @@ const auth = require('../services/auth-service')
 
 // //Função para novo cadastro
 router.post("/register", function (req, res) {
-    auth.signUp(req.body.username, req.body.password, req.body.email).then(resp => {
+    auth.signUp(req.body.username, req.body.password, req.body.email, req.body.apelido).then(resp => {
         console.log(` ==== INFO ==== Register :: ${req.body.username} :: ${req.body.password} :: ${req.body.email} `)
 
         res.send(resp)
