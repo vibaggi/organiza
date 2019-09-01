@@ -22,7 +22,18 @@ function signUp(username, password, email) {
                 password: criptoHash.generate(password),
                 email: email
             }
+            
             //TODO: verificar se já existe o usuario da org
+            db.collection("usuarios").findOne({
+                $or: [
+                    {login: username},
+                    {email: email}
+                ]
+            }, function(error, result){
+                if(error) reject("ERRO INTERNO - tente novamente mais tarde")
+                if(result != undefined) reject("USUÁRIO OU EMAIL JÁ EXISTENTE")
+            })
+
             db.collection("usuarios").insertOne(user, function (err, res) {
                 //caso dispare erro na criacao da conta
                 if (err) reject(err)
