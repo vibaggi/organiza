@@ -35,7 +35,7 @@ async function registrarTarefa(login, nomeRepublica, nomeTarefa){
                 db.collection('usuarios').updateOne({
                     login: login
                 },{
-                    $inc: { saldo: tarefa.valor}
+                    $inc: { saldo: +tarefa.valor}
                 })
 
                 resolve("OK")

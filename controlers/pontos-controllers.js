@@ -62,7 +62,7 @@ async function enviarPontos(remetente, destinatario, republica, valor) {
                 db.collection('usuarios').updateOne({
                     login: destinatario
                 }, {
-                        $inc: { saldo: valor }
+                        $inc: { saldo: +valor }
                     })
 
                 resolve("TRANSFERENCIA REALIZADA")
