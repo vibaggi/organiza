@@ -21,7 +21,8 @@ function signUp(username, password, email, apelido) {
                 login: username,
                 password: criptoHash.generate(password),
                 email: email,
-                apelido: apelido
+                apelido: apelido,
+                saldo: 0
             }
             
             //TODO: verificar se já existe o usuario da org
