@@ -77,7 +77,7 @@ async function totalTarefasRep(nomeRepublica, quantUltimas){
                 if(err) reject(err)
                 resolve({
                     total: docs.length,
-                    ultimas: docs.slice(-quantUltimas)
+                    ultimas: docs.slice(0,quantUltimas)
                 })
                 client.close()
             })
