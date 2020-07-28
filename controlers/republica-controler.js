@@ -212,6 +212,31 @@ async function rankRepublica(nome){
     })
 }
 
+async function usuariosSemRepublica(){
+    return new Promise((resolve, reject) =>{
+
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+            db.collection('republicas').find({},{participantesID: 1}).toArray((err, docs)=>{
+                if(err) reject(err)
+                let usuariosEmRepublica = []
+                docs.forEach(moradores => moradores.participantesID.forEach(usuario=>{
+                    usuariosEmRepublica.push(usuario)
+                }))
+
+                db.collection('usuarios').find({ login: { $nin: usuariosEmRepublica} }).toArray((err, docs) =>{
+                    if(err) reject(err)
+                    resolve(docs)
+                })
+            })
+            
+        })
+
+    })
+}
+
 
 module.exports = {
     criarRepublica: criarRepublica,
@@ -222,5 +247,6 @@ module.exports = {
     infoRepublica: infoRepublica,
     listaModelosTarefas: listaModelosTarefas,
     infoRepublicaPorUsuario: infoRepublicaPorUsuario,
-    rankRepublica: rankRepublica
+    rankRepublica: rankRepublica,
+    usuariosSemRepublica: usuariosSemRepublica
 }
