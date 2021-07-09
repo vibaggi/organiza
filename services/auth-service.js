@@ -59,6 +59,8 @@ function signUp(username, password, email, apelido) {
 function login(username, password) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(process.env.MONGO_URL, function(err, client){
+
+            if(err) console.error(err)
             //Conectando ao banco
             var db = client.db(process.env.MONGO_DATABASE);
             //selecionando a collection

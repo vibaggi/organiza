@@ -237,6 +237,28 @@ async function usuariosSemRepublica(){
     })
 }
 
+async function removerMembro(login, nomeRepublica){
+    return new Promise((resolve, reject)=>{
+        MongoClient.connect(process.env.MONGO_URL, function(err, client){
+            if(err) reject(err)
+
+            var db = client.db(process.env.MONGO_DATABASE)
+            console.log(login, nomeRepublica);
+            db.collection('republicas').update(
+                {nome: {$eq: nomeRepublica}},
+                { $pull: { participantesID: login }}
+            ).then(resp=>{
+                resolve(resp)
+                client.close()
+            }).catch(error=>{
+                reject(error)
+                client.close()
+            })
+
+            
+        })
+    })
+}
 
 module.exports = {
     criarRepublica: criarRepublica,
@@ -248,5 +270,6 @@ module.exports = {
     listaModelosTarefas: listaModelosTarefas,
     infoRepublicaPorUsuario: infoRepublicaPorUsuario,
     rankRepublica: rankRepublica,
-    usuariosSemRepublica: usuariosSemRepublica
+    usuariosSemRepublica: usuariosSemRepublica,
+    removerMembro: removerMembro
 }

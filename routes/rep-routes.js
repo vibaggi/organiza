@@ -93,5 +93,14 @@ router.get("/usuario-sem-republica", function(req, res){
 })
 
 
+router.delete("/removerMorador", function(req, res){
+    controller.removerMembro(req.query.login, req.query.nomeRepublica).then((resp)=>{
+        res.status(200).send({message: "Morador Removido com sucesso!"})
+    }).catch(error=>{
+        res.status(500).send(error)
+    })
+})
+
+
 
 module.exports = router
