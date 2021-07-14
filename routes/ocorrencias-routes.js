@@ -15,7 +15,7 @@ router.put("/registrar", function(req, res){
     }
 
     controller.registrarOcorrencia(acusador,republica,reu, lei).then(resp=>{
-        res.status(200).send(resp)
+        res.status(200).send({message: "Tarefa registrada com sucesso!"})
     }).catch(error=>{
         res.status(500).send(error)
     })
